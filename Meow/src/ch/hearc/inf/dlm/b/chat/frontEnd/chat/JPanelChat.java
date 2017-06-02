@@ -1,12 +1,16 @@
 
 package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class JPanelChat extends JPanel
 	{
@@ -25,6 +29,38 @@ public class JPanelChat extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+	/**
+	 *
+	 * @param msg
+	 * @param provenance true for local false for ext
+	 */
+	public void addLine(String msg, Boolean provenance)
+		{
+		SimpleAttributeSet side;
+		styledDocument = jTextPaneDisplay.getStyledDocument();
+		if (provenance)
+			{
+			side = left;
+			}
+
+		else
+			{
+			side = right;
+			}
+		try
+			{
+			String formattedMsg = "\n" + msg;
+			styledDocument.insertString(styledDocument.getLength(), formattedMsg, null);
+			styledDocument.setParagraphAttributes(styledDocument.getLength()+1, 1, side, false);
+			}
+		catch (Exception e)
+			{
+			System.out.println("An exception occured while adding line : " + e);
+			}
+
+		jScrollBar = jScrollPane.getVerticalScrollBar();
+		jScrollBar.setValue(jScrollBar.getMaximum());
+		}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -42,33 +78,37 @@ public class JPanelChat extends JPanel
 		{
 		// JComponent : Instanciation
 		jTextPaneDisplay = new JTextPane();
-		jTextFieldMessage = new JTextField();
-		jButtonSend = new JButton("Envoyer");
-		jbuttonVideo = new JButton("Video");
+		jScrollPane = new JScrollPane(jTextPaneDisplay);
+		jPanelChatBottom = new JPanelChatBottom(this);
 		// Layout : Specification
 			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
-			setLayout(flowlayout);
+			BorderLayout borderLayout = new BorderLayout();
+			setLayout(borderLayout);
 
 			// flowlayout.setHgap(20);
 			// flowlayout.setVgap(20);
 			}
 
 		// JComponent : add
-			add(jTextPaneDisplay);
-			add(jTextFieldMessage);
-			add(jbuttonVideo);
-			add(jButtonSend);
+		add(jScrollPane, BorderLayout.CENTER);
+		add(jPanelChatBottom, BorderLayout.SOUTH);
 		}
 
 	private void control()
 		{
-		// rien
+		jTextPaneDisplay.setEditable(false);
+		jTextPaneDisplay.setContentType("text/html");
 		}
 
 	private void appearance()
 		{
-		// rien
+		left = new SimpleAttributeSet();
+		StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+		StyleConstants.setForeground(left, Color.RED);
+
+		right = new SimpleAttributeSet();
+		StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+		StyleConstants.setForeground(right, Color.BLUE);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -77,7 +117,10 @@ public class JPanelChat extends JPanel
 
 	// Tools
 	private JTextPane jTextPaneDisplay;
-	private JTextField jTextFieldMessage;
-	private JButton jButtonSend;
-	private JButton jbuttonVideo;
+	private JScrollPane jScrollPane;
+	private JPanelChatBottom jPanelChatBottom;
+	private JScrollBar jScrollBar;
+	private StyledDocument styledDocument;
+	private SimpleAttributeSet left;
+	private SimpleAttributeSet right;
 	}

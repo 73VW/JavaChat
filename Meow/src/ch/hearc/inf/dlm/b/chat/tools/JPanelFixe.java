@@ -1,21 +1,21 @@
 
-package ch.hearc.inf.dlm.b.chat.frontEnd.connection;
+package ch.hearc.inf.dlm.b.chat.tools;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import ch.hearc.inf.dlm.b.chat.tools.JPanelDecorator;
-
-public class JFrameConnexion extends JFrame
+public class JPanelFixe extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JFrameConnexion()
+	public JPanelFixe(int size)
 		{
+		this.size = size;
+
 		geometry();
 		control();
 		appearance();
@@ -39,42 +39,35 @@ public class JFrameConnexion extends JFrame
 
 	private void geometry()
 		{
-		// JComponent : Instanciation
-		jPanelConnexion = new JPanelConnexion();
-		jPanelDecorator = new JPanelDecorator(jPanelConnexion, 20);
-		// Layout : Specification
-			{
-			BorderLayout borderLayout = new BorderLayout();
-			setLayout(borderLayout);
-
-			// borderLayout.setHgap(20);
-			// borderLayout.setVgap(20);
-			}
-
-		// JComponent : add
-		add(jPanelDecorator, BorderLayout.CENTER);
+		//rien
 		}
 
 	private void control()
 		{
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// rien
 		}
 
 	private void appearance()
 		{
-		setSize(460, 170);
-		setLocationRelativeTo(null); // frame centrer
-		setResizable(false);
-		setTitle("Java Chat - Connexion!");
-		setVisible(true); // last!
+		dimension = new Dimension(size, size);
+		setMinimumSize(dimension);
+		setMaximumSize(dimension);
+		setPreferredSize(dimension);
+
+		//debug
+		//			{
+		//			setBackground(Color.PINK);
+		//			setOpaque(true);
+		//			}
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
-	// Tools
-	private JPanelConnexion jPanelConnexion;
-	private JPanelDecorator jPanelDecorator;
+	//Inputs
+	private int size;
 
+	// Tools
+	private Dimension dimension;
 	}

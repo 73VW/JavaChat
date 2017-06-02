@@ -1,21 +1,23 @@
 
-package ch.hearc.inf.dlm.b.chat.frontEnd.connection;
+package ch.hearc.inf.dlm.b.chat.tools;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JFrame;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
-import ch.hearc.inf.dlm.b.chat.tools.JPanelDecorator;
-
-public class JFrameConnexion extends JFrame
+public class JPanelDecorator extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JFrameConnexion()
+	public JPanelDecorator(JComponent component, int marge)
 		{
+		this.component = component;
+		this.marge = marge;
+
 		geometry();
 		control();
 		appearance();
@@ -25,56 +27,55 @@ public class JFrameConnexion extends JFrame
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
 	private void geometry()
 		{
-		// JComponent : Instanciation
-		jPanelConnexion = new JPanelConnexion();
-		jPanelDecorator = new JPanelDecorator(jPanelConnexion, 20);
+		jPanelEst = new JPanelFixe(marge);
+		jPanelOuest = new JPanelFixe(marge);
+		jPanelNord = new JPanelFixe(marge);
+		jPanelSud = new JPanelFixe(marge);
+
 		// Layout : Specification
 			{
 			BorderLayout borderLayout = new BorderLayout();
 			setLayout(borderLayout);
 
-			// borderLayout.setHgap(20);
-			// borderLayout.setVgap(20);
+			borderLayout.setHgap(0);
+			borderLayout.setVgap(0);
 			}
 
 		// JComponent : add
-		add(jPanelDecorator, BorderLayout.CENTER);
+		add(component, BorderLayout.CENTER);
+		add(jPanelEst, BorderLayout.EAST);
+		add(jPanelOuest, BorderLayout.WEST);
+		add(jPanelNord, BorderLayout.NORTH);
+		add(jPanelSud, BorderLayout.SOUTH);
 		}
 
 	private void control()
 		{
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// rien
 		}
 
 	private void appearance()
 		{
-		setSize(460, 170);
-		setLocationRelativeTo(null); // frame centrer
-		setResizable(false);
-		setTitle("Java Chat - Connexion!");
-		setVisible(true); // last!
+		// rien
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
-	// Tools
-	private JPanelConnexion jPanelConnexion;
-	private JPanelDecorator jPanelDecorator;
+	//input
+	private JComponent component;
+	private int marge;
 
+	// Tools
+	private JPanelFixe jPanelNord;
+	private JPanelFixe jPanelSud;
+	private JPanelFixe jPanelOuest;
+	private JPanelFixe jPanelEst;
 	}

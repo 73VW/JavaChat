@@ -1,8 +1,6 @@
 
 package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
-
-
 public class UseJFrameChat
 	{
 	/*------------------------------------------------------------------*\
@@ -16,7 +14,7 @@ public class UseJFrameChat
 
 	public static void main()
 		{
-		new JFrameChat();
+		JFrameChat jFrame = new JFrameChat();
 		}
 
 	/*------------------------------------------------------------------*\
@@ -24,4 +22,3 @@ public class UseJFrameChat
 	\*------------------------------------------------------------------*/
 
 	}
-
