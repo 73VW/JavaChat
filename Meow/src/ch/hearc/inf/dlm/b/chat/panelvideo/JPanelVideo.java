@@ -108,6 +108,12 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 	// Tools
 	private BufferedImage imageLocal;
 	private BufferedImage imageExterne;
+	@Override
+	public void toggleBlackAndWhite()
+		{
+		// TODO Auto-generated method stub
+
+		}
 
 
 
