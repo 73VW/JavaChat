@@ -5,14 +5,16 @@ import java.awt.image.BufferedImage;
 
 import com.github.sarxos.webcam.Webcam;
 
-public class MyWebcam {
+public class MyWebcam
+	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
-	public MyWebcam() {
+	public MyWebcam()
+		{
 		webcam = WebcamTest.createWebcam();
-	}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
@@ -26,9 +28,10 @@ public class MyWebcam {
 	|*				Get				*|
 	\*------------------------------*/
 
-	public BufferedImage getImage() {
+	public BufferedImage getImage()
+		{
 		return webcam.getImage();
-	}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
@@ -40,4 +43,4 @@ public class MyWebcam {
 
 	private Webcam webcam;
 
-}
+	}
