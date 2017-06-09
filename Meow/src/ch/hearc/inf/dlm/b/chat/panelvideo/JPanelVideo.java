@@ -41,7 +41,8 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		image=new BufferedImage(300, 200, BufferedImage.TYPE_3BYTE_BGR);
+		imageLocal=new BufferedImage(300, 200, BufferedImage.TYPE_3BYTE_BGR);
+		imageExterne=new BufferedImage(300, 200, BufferedImage.TYPE_3BYTE_BGR);
 		ThreadVideo threadVideo=new ThreadVideo(this);
 		new Thread(threadVideo).start();
 
@@ -81,14 +82,23 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 	private void dessiner(Graphics2D g2d)
 		{
-		g2d.drawImage(image, 0, 0,this.getWidth(),this.getHeight(), null);
+		g2d.drawImage(imageLocal, 0, 0,this.getWidth()/2,this.getHeight(), null);
+		g2d.drawImage(imageExterne, this.getWidth()/2, 0, this.getWidth()/2, this.getHeight(), this);
 		}
 
 	@Override
-	public void setImagePanel(BufferedImage image)
+	public void setLocalImage(BufferedImage image)
 		{
-		this.image = image;
+		this.imageLocal = image;
 		repaint();
+		}
+
+	@Override
+	public void setExternalImage(BufferedImage image)
+		{
+		this.imageExterne=image;
+		repaint();
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -96,7 +106,12 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private BufferedImage image;
+	private BufferedImage imageLocal;
+	private BufferedImage imageExterne;
+
+
+
+
 
 
 	}

@@ -13,7 +13,7 @@ public class MyWebcam
 	\*------------------------------------------------------------------*/
 	public MyWebcam()
 		{
-		webcam = WebcamTest.createWebcam();
+		webcam = WebcamTools.createWebcam();
 		}
 
 	/*------------------------------------------------------------------*\

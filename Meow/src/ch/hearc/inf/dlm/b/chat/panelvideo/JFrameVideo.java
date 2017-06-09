@@ -4,14 +4,14 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-public class JFrameVideo2 extends JFrame
+public class JFrameVideo extends JFrame
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JFrameVideo2()
+	public JFrameVideo()
 		{
 		geometry();
 		control();

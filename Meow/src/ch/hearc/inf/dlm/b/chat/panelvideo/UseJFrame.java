@@ -12,7 +12,7 @@ public class UseJFrame {
 	}
 
 	public static void main() {
-		new JFrameVideo2();
+		new JFrameVideo();
 	}
 
 	/*------------------------------------------------------------------*\
