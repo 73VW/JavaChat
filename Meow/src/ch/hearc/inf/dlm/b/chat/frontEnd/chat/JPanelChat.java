@@ -40,12 +40,12 @@ public class JPanelChat extends JPanel
 		styledDocument = jTextPaneDisplay.getStyledDocument();
 		if (provenance)
 			{
-			side = left;
+			side = right;
 			}
 
 		else
 			{
-			side = right;
+			side = left;
 			}
 		try
 			{

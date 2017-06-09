@@ -38,7 +38,10 @@ public class Tester
 						{
 						e.printStackTrace();
 						}
-					state = !state;
+					if (i % 3 == 0)
+						{
+						state = !state;
+						}
 					}
 				}
 			});

@@ -1,13 +1,21 @@
 
 package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
-import java.awt.BorderLayout;
-
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+
+import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
 
 public class JFrameChat extends JFrame
 	{
-
+	// TODO set border->border factory
+	// create title border
+	// Jpanel decorator
+	// image dans boutons
+	// image dans jframe
+	// logo applicatif
+	// plein écran sans barre de titre
+	// jpanel option video (noir/blanc, mirroir)
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
@@ -43,18 +51,21 @@ public class JFrameChat extends JFrame
 	private void geometry()
 		{
 		// JComponent : Instanciation
+		JPanelVideo jPanelVideo = new JPanelVideo();
 		jPanelChat = new JPanelChat();
 		// Layout : Specification
 			{
-			BorderLayout borderLayout = new BorderLayout();
-			setLayout(borderLayout);
+			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+			setLayout(boxLayout);
 
 			// borderLayout.setHgap(20);
 			// borderLayout.setVgap(20);
 			}
 
 		// JComponent : add
-		add(jPanelChat, BorderLayout.CENTER);
+		add(jPanelVideo);
+		add(jPanelChat);
+		jPanelVideo.setVisible(false);
 		}
 
 	private void control()
