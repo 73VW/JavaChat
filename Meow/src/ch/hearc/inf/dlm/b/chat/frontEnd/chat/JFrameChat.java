@@ -23,6 +23,11 @@ public class JFrameChat extends JFrame
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
+	public void addLine(String msg, Boolean provenance)
+		{
+		jPanelChat.addLine(msg, provenance);
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
@@ -49,7 +54,7 @@ public class JFrameChat extends JFrame
 			}
 
 		// JComponent : add
-		add(jPanelChat,BorderLayout.CENTER);
+		add(jPanelChat, BorderLayout.CENTER);
 		}
 
 	private void control()
@@ -60,6 +65,7 @@ public class JFrameChat extends JFrame
 	private void appearance()
 		{
 		setSize(600, 400);
+		setTitle("Java Chat");
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}

@@ -1,24 +1,24 @@
 
-package ch.hearc.inf.dlm.b.chat.frontEnd.connection;
+package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class JPanelConnexion extends JPanel
+public class JPanelChatBottom extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelConnexion()
+	public JPanelChatBottom(JPanelChat jPanelChat)
 		{
+		this.jPanelChat = jPanelChat;
 		geometry();
 		control();
 		appearance();
@@ -43,15 +43,13 @@ public class JPanelConnexion extends JPanel
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		jLabelDistIp = new JLabel("Adresse IP distante");
-		jLabelPseudo = new JLabel("Nom d'utilisateur");
-		jLabelCurrIp = new JLabel("Votre adresse IP : ");
-		jTextFieldDistIp = new JTextField();
-		jTextFieldPseudo = new JTextField();
-		jButtonConnexion = new JButton("Connexion");
+		jTextFieldMessage = new JTextField();
+		jButtonSend = new JButton("Envoyer");
+		jbuttonVideo = new JButton("Video");
+
 		// Layout : Specification
 			{
-			GridLayout gridLayout = new GridLayout(3, 2, 30, 10);
+			GridLayout gridLayout = new GridLayout(1, 3, 20, 20);
 			setLayout(gridLayout);
 
 			// flowlayout.setHgap(20);
@@ -59,27 +57,35 @@ public class JPanelConnexion extends JPanel
 			}
 
 		// JComponent : add
-		add(jLabelDistIp);
-		add(jTextFieldDistIp);
-		add(jLabelPseudo);
-		add(jTextFieldPseudo);
-		add(jLabelCurrIp);
-		add(jButtonConnexion);
+		add(jTextFieldMessage);
+		add(jButtonSend);
+		add(jbuttonVideo);
 		}
 
 	private void control()
 		{
-		jButtonConnexion.addMouseListener(new MouseAdapter()
+		jButtonSend.addMouseListener(new MouseAdapter()
 			{
 
 			@Override
 			public void mousePressed(MouseEvent e)
 				{
 				// TODO Auto-generated method stub
-				System.out.println(jTextFieldDistIp.getText());
+				jPanelChat.addLine(jTextFieldMessage.getText(), false);
+				jTextFieldMessage.setText("");
+				jTextFieldMessage.requestFocus();
 				}
 			});
+		jbuttonVideo.addMouseListener(new MouseAdapter()
+			{
 
+			@Override
+			public void mousePressed(MouseEvent e)
+				{
+				// TODO Auto-generated method stub
+				System.out.println("Open Video");
+				}
+			});
 		}
 
 	private void appearance()
@@ -90,13 +96,12 @@ public class JPanelConnexion extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
+	//input
+	private JPanelChat jPanelChat;
 
 	// Tools
-	private JLabel jLabelDistIp;
-	private JLabel jLabelPseudo;
-	private JLabel jLabelCurrIp;
-	private JTextField jTextFieldDistIp;
-	private JTextField jTextFieldPseudo;
-	private JButton jButtonConnexion;
+	private JTextField jTextFieldMessage;
+	private JButton jButtonSend;
+	private JButton jbuttonVideo;
 
 	}
