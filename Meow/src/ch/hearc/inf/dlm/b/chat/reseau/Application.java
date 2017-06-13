@@ -5,11 +5,17 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
-
-import org.junit.Assert;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 import ch.hearc.inf.dlm.b.chat.frontEnd.chat.JFrameChat;
 import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
+import ch.hearc.inf.dlm.b.chat.reseau.image.ImageSerializable;
+import ch.hearc.inf.dlm.b.chat.reseau.message.StringCrypter;
+import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
 import com.bilat.tools.reseau.rmi.RmiTools;
 import com.bilat.tools.reseau.rmi.RmiURL;
@@ -24,45 +30,30 @@ public class Application implements Application_I ,Runnable
 	private Application()
 		{
 		this.remoteInstance = null;
+
+		generateKeysSecurity();
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	public void setJPanelVideo(JPanelVideo jPanelVideo)
+	@Override
+	public void savePrivateKey(PrivateKey privateKey) throws RemoteException
 		{
-		this.jPanelVideo = jPanelVideo;
-		}
-
-	public void setJFrameChat(JFrameChat jFrameChat)
-		{
-		this.jFrameChat = jFrameChat;
+		this.remotePrivateKey = privateKey;
 		}
 
 	@Override
 	public void setText(StringCrypter stringCrypter) throws RemoteException
 		{
-		String string = new String("salut");
-		this.remoteInstance.addLine(string);
-		}
-
-	@Override
-	public void addLine(String message) throws RemoteException
-		{
-		this.jFrameChat.addLine(message, false);
+		addLine(stringCrypter.toString());
 		}
 
 	@Override
 	public void setImage(ImageSerializable imageSerializable) throws RemoteException
 		{
-		this.remoteInstance.addImage(imageSerializable);
-		}
-
-	@Override
-	public void addImage(ImageSerializable imageSerializable) throws RemoteException
-		{
-		this.jPanelVideo.setExternalImage(imageSerializable.getImage());
+		addImage(imageSerializable);
 		}
 
 	@Override
@@ -77,24 +68,58 @@ public class Application implements Application_I ,Runnable
 			}
 		catch (MalformedURLException e)
 			{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
 
+		}
+
+	public void setJPanelVideo(JPanelVideo jPanelVideo)
+		{
+		this.jPanelVideo = jPanelVideo;
+		}
+
+	public void setJFrameChat(JFrameChat jFrameChat)
+		{
+		this.jFrameChat = jFrameChat;
+		}
+
+	public void addLine(String message) throws RemoteException
+		{
+		this.jFrameChat.addLine(message, false);
+		}
+
+	public void addImage(ImageSerializable imageSerializable) throws RemoteException
+		{
+		this.jPanelVideo.setExternalImage(imageSerializable.getImage());
+		}
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+
+	public PrivateKey getRemotePrivatekey()
+		{
+		return this.remotePrivateKey;
+		}
+
+	public PublicKey getPublicKey()
+		{
+		return this.publicKey;
 		}
 
 	/*------------------------------*\
 	|*			  Static			*|
 	\*------------------------------*/
 
-	public static synchronized void init(ApplicationSettings applicationSettings)
+	public static void init(String serverName, String pseudo)
 		{
-		Assert.assertTrue(applicationSettings != null);
+		SERVER_NAME = serverName;
+		PSEUDO = pseudo;
 		}
 
 	public static synchronized Application getInstance()
 		{
-		Assert.assertTrue(applicationSettings != null);
+		getInstance();
 
 		if (INSTANCE == null)
 			{
@@ -162,6 +187,30 @@ public class Application implements Application_I ,Runnable
 		}
 
 	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	private void generateKeysSecurity()
+		{
+		KeyPairGenerator keyGen = null;
+		try
+			{
+			keyGen = KeyPairGenerator.getInstance("RSA");
+			}
+		catch (NoSuchAlgorithmException e)
+			{
+			e.printStackTrace();
+			}
+		keyGen.initialize(1024);
+
+		KeyPair pair = keyGen.generateKeyPair();
+
+		this.privateKey = pair.getPrivate();
+		this.publicKey = pair.getPublic();
+
+		}
+
+	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
@@ -169,11 +218,15 @@ public class Application implements Application_I ,Runnable
 	private JFrameChat jFrameChat;
 	private JPanelVideo jPanelVideo;
 
+	private PrivateKey privateKey;
+	private PublicKey publicKey;
+
+	private PrivateKey remotePrivateKey;
+
 	/*------------------------------*\
 	|*			  Static			*|
 	\*------------------------------*/
 
-	private static ApplicationSettings applicationSettings;
 	public static boolean IS_CONNECTED_TO_REMOTE_INSTANCE = false;
 	private static Application INSTANCE = null;
 	private static String PSEUDO = null;

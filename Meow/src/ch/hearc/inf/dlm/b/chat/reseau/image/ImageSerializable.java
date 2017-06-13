@@ -1,5 +1,5 @@
 
-package ch.hearc.inf.dlm.b.chat.reseau;
+package ch.hearc.inf.dlm.b.chat.reseau.image;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-class ImageSerializable implements Serializable
+public class ImageSerializable implements Serializable
 	{
 
 	/*------------------------------------------------------------------*\

@@ -1,10 +1,20 @@
 
-package ch.hearc.inf.dlm.b.chat.reseau;
+package ch.hearc.inf.dlm.b.chat.reseau.message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SealedObject;
+
+import ch.hearc.inf.dlm.b.chat.reseau.Application;
 
 public class StringCrypter implements Serializable
 	{
@@ -32,14 +42,38 @@ public class StringCrypter implements Serializable
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private static String crypter(String string)
+	private SealedObject crypter()
 		{
-		return "x" + string; // todo dégainer les algorithmes du cours de sécurité
+		try
+			{
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE, Application.getInstance().getPublicKey());
+
+			return new SealedObject(secret, cipher);
+
+			}
+		catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | IOException e1)
+			{
+			e1.printStackTrace();
+			return null;
+			}
 		}
 
-	private static String decrypter(String string)
+	private String decrypter(SealedObject messageCrypted)
 		{
-		return string.substring(1);//todo fonction inverse du cryptage
+
+		try
+			{
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.DECRYPT_MODE, Application.getInstance().getRemotePrivatekey());
+
+			return (String)messageCrypted.getObject(cipher);
+			}
+		catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | ClassNotFoundException | IOException e)
+			{
+			e.printStackTrace();
+			return null;
+			}
 		}
 
 	/*------------------------------*\
@@ -48,12 +82,12 @@ public class StringCrypter implements Serializable
 
 	private void writeObject(ObjectOutputStream out) throws IOException
 		{
-		out.writeObject(crypter(secret));
+		out.writeObject(crypter());
 		}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 		{
-		secret = decrypter((String)in.readObject());
+		secret = decrypter((SealedObject)in.readObject());
 		}
 
 	/*------------------------------------------------------------------*\
