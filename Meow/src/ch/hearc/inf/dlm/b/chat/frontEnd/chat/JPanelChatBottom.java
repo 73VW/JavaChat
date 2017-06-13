@@ -2,6 +2,8 @@
 package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -49,31 +51,44 @@ public class JPanelChatBottom extends JPanel
 
 		// Layout : Specification
 			{
-			GridLayout gridLayout = new GridLayout(1, 3, 20, 20);
+			GridLayout gridLayout = new GridLayout(0, 2, 10, 0);
 			setLayout(gridLayout);
 
 			// flowlayout.setHgap(20);
 			// flowlayout.setVgap(20);
 			}
 
+		JPanel jPanelButtons = new JPanel();
+		jPanelButtons.setLayout(new GridLayout(0, 2, 10, 0));
+		jPanelButtons.add(jButtonSend);
+		jPanelButtons.add(jbuttonVideo);
+
 		// JComponent : add
 		add(jTextFieldMessage);
-		add(jButtonSend);
-		add(jbuttonVideo);
+		add(jPanelButtons);
 		}
 
 	private void control()
 		{
+		jTextFieldMessage.addKeyListener(new KeyAdapter()
+			{
+
+			@Override
+			public void keyPressed(KeyEvent e)
+				{
+				if (e.getKeyCode() == 10)
+					{
+					sendMessage();
+					}
+				}
+			});
 		jButtonSend.addMouseListener(new MouseAdapter()
 			{
 
 			@Override
 			public void mousePressed(MouseEvent e)
 				{
-				// TODO Auto-generated method stub
-				jPanelChat.addLine(jTextFieldMessage.getText(), false);
-				jTextFieldMessage.setText("");
-				jTextFieldMessage.requestFocus();
+				sendMessage();
 				}
 			});
 		jbuttonVideo.addMouseListener(new MouseAdapter()
@@ -86,6 +101,12 @@ public class JPanelChatBottom extends JPanel
 				System.out.println("Open Video");
 				}
 			});
+		}
+
+	private void sendMessage()
+		{
+		jPanelChat.addLine(jTextFieldMessage.getText(), true);
+		jTextFieldMessage.setText("");
 		}
 
 	private void appearance()
