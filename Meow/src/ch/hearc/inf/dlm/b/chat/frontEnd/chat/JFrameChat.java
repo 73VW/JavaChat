@@ -51,7 +51,7 @@ public class JFrameChat extends JFrame
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		JPanelVideo jPanelVideo = new JPanelVideo();
+		jPanelVideo = new JPanelVideo();
 		jPanelChat = new JPanelChat();
 		// Layout : Specification
 			{
@@ -81,11 +81,17 @@ public class JFrameChat extends JFrame
 		setVisible(true); // last!
 		}
 
+	public JPanelVideo getVideoPanel()
+	{
+	return jPanelVideo;
+	}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
 	// Tools
 	private JPanelChat jPanelChat;
+	private JPanelVideo jPanelVideo;
 
 	}

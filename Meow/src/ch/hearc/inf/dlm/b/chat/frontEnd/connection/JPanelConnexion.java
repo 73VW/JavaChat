@@ -2,15 +2,19 @@
 package ch.hearc.inf.dlm.b.chat.frontEnd.connection;
 
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.SocketException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import ch.hearc.inf.dlm.b.chat.frontEnd.chat.JFrameChat;
+import ch.hearc.inf.dlm.b.chat.reseau.Application;
+
+import com.bilat.tools.reseau.rmi.NetworkTools;
 
 public class JPanelConnexion extends JPanel
 	{
@@ -44,15 +48,18 @@ public class JPanelConnexion extends JPanel
 
 	private void geometry()
 		{
-		String localhostIp="";
+		String localhostIp = "";
+
 		try
 			{
-			localhostIp = InetAddress.getLocalHost().getHostAddress();
+			localhostIp = NetworkTools.localhost("").get(0).toString();
 			}
-		catch (UnknownHostException e)
+		catch (SocketException e)
 			{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
+		localhostIp=localhostIp.substring(1);
 
 		// JComponent : Instanciation
 		jLabelDistIp = new JLabel("Adresse IP distante");
@@ -60,7 +67,7 @@ public class JPanelConnexion extends JPanel
 		jLabelCurrIp = new JLabel("Votre adresse IP : ");
 		jTextFieldDistIp = new JTextField();
 		jTextFieldPseudo = new JTextField();
-		jTextFieldIP = new JTextField(localhostIp);
+		jLabelIp = new JLabel(localhostIp);
 		jButtonConnexion = new JButton("Connexion");
 		// Layout : Specification
 			{
@@ -77,20 +84,21 @@ public class JPanelConnexion extends JPanel
 		add(jLabelPseudo);
 		add(jTextFieldPseudo);
 		add(jLabelCurrIp);
-		add(jTextFieldIP);
+		add(jLabelIp);
 		add(jButtonConnexion);
 		}
 
 	private void control()
 		{
-		jButtonConnexion.addMouseListener(new MouseAdapter()
+		jButtonConnexion.addActionListener(new ActionListener()
 			{
 
 			@Override
-			public void mousePressed(MouseEvent e)
+			public void actionPerformed(ActionEvent e)
 				{
-				// TODO Auto-generated method stub
 				System.out.println(jTextFieldDistIp.getText());
+				startApplication();
+
 				}
 			});
 
@@ -99,6 +107,16 @@ public class JPanelConnexion extends JPanel
 	private void appearance()
 		{
 		// rien
+		}
+
+	private void startApplication()
+		{
+		Application.init(jTextFieldDistIp.getText(), jTextFieldPseudo.getText());
+		JFrameChat jFrameChat=new JFrameChat();
+		application=Application.getInstance();
+		application.setJFrameChat(jFrameChat);
+		application.setJPanelVideo(jFrameChat.getVideoPanel());
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -111,7 +129,8 @@ public class JPanelConnexion extends JPanel
 	private JLabel jLabelCurrIp;
 	private JTextField jTextFieldDistIp;
 	private JTextField jTextFieldPseudo;
-	private JTextField jTextFieldIP;
+	private JLabel jLabelIp;
 	private JButton jButtonConnexion;
+	private Application application;
 
 	}

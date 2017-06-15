@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import ch.hearc.inf.dlm.b.chat.reseau.Application;
 import ch.hearc.inf.dlm.b.chat.reseau.image.ImageSerializable;
+import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
 public class JPanelVideo extends JPanel implements JPanelVideo_I
 	{
@@ -23,7 +24,7 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 	public JPanelVideo()
 		{
-		application=Application.getInstance();
+		application=Application.getInstance().getRemote();
 		blackAndWhite = false;
 		mirror = true;
 
@@ -165,6 +166,6 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 	private BufferedImage imageExterne;
 	private boolean blackAndWhite;
 	private boolean mirror;
-	private Application application;
+	private Application_I application;
 
 	}
