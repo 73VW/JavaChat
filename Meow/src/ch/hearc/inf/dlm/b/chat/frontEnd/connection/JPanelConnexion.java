@@ -4,6 +4,8 @@ package ch.hearc.inf.dlm.b.chat.frontEnd.connection;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -42,16 +44,27 @@ public class JPanelConnexion extends JPanel
 
 	private void geometry()
 		{
+		String localhostIp="";
+		try
+			{
+			localhostIp = InetAddress.getLocalHost().getHostAddress();
+			}
+		catch (UnknownHostException e)
+			{
+			e.printStackTrace();
+			}
+
 		// JComponent : Instanciation
 		jLabelDistIp = new JLabel("Adresse IP distante");
 		jLabelPseudo = new JLabel("Nom d'utilisateur");
 		jLabelCurrIp = new JLabel("Votre adresse IP : ");
 		jTextFieldDistIp = new JTextField();
 		jTextFieldPseudo = new JTextField();
+		jTextFieldIP = new JTextField(localhostIp);
 		jButtonConnexion = new JButton("Connexion");
 		// Layout : Specification
 			{
-			GridLayout gridLayout = new GridLayout(3, 2, 30, 10);
+			GridLayout gridLayout = new GridLayout(4, 2, 30, 10);
 			setLayout(gridLayout);
 
 			// flowlayout.setHgap(20);
@@ -64,6 +77,7 @@ public class JPanelConnexion extends JPanel
 		add(jLabelPseudo);
 		add(jTextFieldPseudo);
 		add(jLabelCurrIp);
+		add(jTextFieldIP);
 		add(jButtonConnexion);
 		}
 
@@ -97,6 +111,7 @@ public class JPanelConnexion extends JPanel
 	private JLabel jLabelCurrIp;
 	private JTextField jTextFieldDistIp;
 	private JTextField jTextFieldPseudo;
+	private JTextField jTextFieldIP;
 	private JButton jButtonConnexion;
 
 	}

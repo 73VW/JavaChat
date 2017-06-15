@@ -7,8 +7,12 @@ import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
+import java.rmi.RemoteException;
 
 import javax.swing.JPanel;
+
+import ch.hearc.inf.dlm.b.chat.reseau.Application;
+import ch.hearc.inf.dlm.b.chat.reseau.image.ImageSerializable;
 
 public class JPanelVideo extends JPanel implements JPanelVideo_I
 	{
@@ -19,7 +23,9 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 	public JPanelVideo()
 		{
+		application=Application.getInstance();
 		blackAndWhite = false;
+		mirror = true;
 
 		geometry();
 		control();
@@ -86,32 +92,49 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 	private void dessiner(Graphics2D g2d)
 		{
-		if(blackAndWhite)
+		if (blackAndWhite)
 			{
-			imageExterne=setBlackAndWhite(imageExterne);
-			imageLocal=setBlackAndWhite(imageLocal);
-
+			imageExterne = setBlackAndWhite(imageExterne);
+			imageLocal = setBlackAndWhite(imageLocal);
 			}
-		g2d.scale(-1,1);
-		g2d.translate(-this.getWidth(), 0);
-		g2d.drawImage(imageLocal, 0, 0, this.getWidth() / 2, this.getHeight(), null);
-		g2d.drawImage(imageExterne, this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight(), this);
+		if (mirror)
+			{
+			g2d.scale(-1, 1);
+			g2d.translate(-this.getWidth(), 0);
+
+			g2d.drawImage(imageLocal, 0, 0, this.getWidth() / 2, this.getHeight(), null);
+			g2d.drawImage(imageExterne, this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight(), this);
+			}
+		else
+			{
+			g2d.drawImage(imageLocal, this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight(), null);
+			g2d.drawImage(imageExterne, 0, 0, this.getWidth() / 2, this.getHeight(), this);
+			}
+
+
 		}
 
 	private BufferedImage setBlackAndWhite(BufferedImage bufferedImage)
 		{
 		ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
-	    ColorConvertOp op = new ColorConvertOp(cs, null);
+		ColorConvertOp op = new ColorConvertOp(cs, null);
 
-	    return op.filter(bufferedImage, null);
+		return op.filter(bufferedImage, null);
 		}
-
-
 
 	@Override
 	public void setLocalImage(BufferedImage image)
 		{
 		this.imageLocal = image;
+
+		try
+			{
+			application.setImage(new ImageSerializable(image));
+			}
+		catch (RemoteException e)
+			{
+			e.printStackTrace();
+			}
 		repaint();
 		}
 
@@ -120,13 +143,17 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 		{
 		this.imageExterne = image;
 		repaint();
-
 		}
 
 	@Override
 	public void toggleBlackAndWhite()
 		{
-		blackAndWhite=!blackAndWhite;
+		blackAndWhite = !blackAndWhite;
+		}
+
+	public void toggleMirror()
+		{
+		mirror = !mirror;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -137,5 +164,7 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 	private BufferedImage imageLocal;
 	private BufferedImage imageExterne;
 	private boolean blackAndWhite;
+	private boolean mirror;
+	private Application application;
 
 	}

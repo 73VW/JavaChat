@@ -38,7 +38,7 @@ public class JFrameVideo extends JFrame
 		{
 		// JComponent : Instanciation
 		jPanelVideo=new JPanelVideo();
-		jPanelVideo.toggleBlackAndWhite();
+		//jPanelVideo.toggleMirror();
 
 
 		// Layout : Specification
