@@ -24,7 +24,7 @@ public class JPanelChatBottom extends JPanel
 
 	public JPanelChatBottom(JPanelChat jPanelChat)
 		{
-		application=Application.getInstance();
+		application=Application.getInstance().getRemote();
 		this.jPanelChat = jPanelChat;
 		geometry();
 		control();
@@ -113,7 +113,11 @@ public class JPanelChatBottom extends JPanel
 		jPanelChat.addLine(jTextFieldMessage.getText(), true);
 		try
 			{
+<<<<<<< HEAD
+			Application.getInstance().getRemote().setText(new StringCrypter(jTextFieldMessage.getText()));
+=======
 			Application.getInstance().getRemote().setText(jTextFieldMessage.getText());
+>>>>>>> e83723c4b2f264d8447c772978936b6dbb23ef63
 			}
 		catch (RemoteException e)
 			{
