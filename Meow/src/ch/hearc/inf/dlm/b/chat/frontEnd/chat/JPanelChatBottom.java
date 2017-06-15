@@ -112,7 +112,6 @@ public class JPanelChatBottom extends JPanel
 		{
 		jPanelChat.addLine(jTextFieldMessage.getText(), true);
 
-
 		try
 			{
 

@@ -51,7 +51,9 @@ public class Application implements Application_I ,Runnable
 	public void setText(String stringCrypter) throws RemoteException
 		{
 
+
 		addLine(stringCrypter);
+
 		}
 
 	@Override
