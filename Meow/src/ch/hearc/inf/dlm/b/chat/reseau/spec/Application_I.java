@@ -15,6 +15,6 @@ public interface Application_I extends Remote
 
 	public void setImage(ImageSerializable imageSerializable) throws RemoteException;
 
-	public abstract void savePublicKey(PublicKey publicKey) throws RemoteException;
+	public void savePublicKey(PublicKey publicKey) throws RemoteException;
 
 	}

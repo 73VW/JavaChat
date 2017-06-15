@@ -3,6 +3,7 @@ package ch.hearc.inf.dlm.b.chat.reseau;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.security.KeyPair;
@@ -11,12 +12,15 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import org.junit.Assert;
+
 import ch.hearc.inf.dlm.b.chat.frontEnd.chat.JFrameChat;
 import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
 import ch.hearc.inf.dlm.b.chat.reseau.image.ImageSerializable;
 import ch.hearc.inf.dlm.b.chat.reseau.message.StringCrypter;
 import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
+import com.bilat.tools.reseau.rmi.NetworkTools;
 import com.bilat.tools.reseau.rmi.RmiTools;
 import com.bilat.tools.reseau.rmi.RmiURL;
 
@@ -107,9 +111,28 @@ public class Application implements Application_I ,Runnable
 		return this.privateKey;
 		}
 
+	public Application_I getRemote()
+		{
+		return remoteInstance;
+		}
+
 	/*------------------------------*\
 	|*			  Static			*|
 	\*------------------------------*/
+
+	public static String getIP()
+		{
+		try
+			{
+			return NetworkTools.localhost("").get(0).toString();
+			}
+		catch (SocketException e)
+			{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		return null;
+		}
 
 	public static void init(String serverName, String pseudo)
 		{
@@ -119,7 +142,8 @@ public class Application implements Application_I ,Runnable
 
 	public static synchronized Application getInstance()
 		{
-		getInstance();
+		Assert.assertTrue(SERVER_NAME != null);
+		Assert.assertTrue(PSEUDO != null);
 
 		if (INSTANCE == null)
 			{
@@ -143,7 +167,7 @@ public class Application implements Application_I ,Runnable
 			{
 			RmiURL rmiURL = new RmiURL("007", 1099);
 			RmiTools.shareObject(this, rmiURL);
-			RmiTools.afficherAllShareObject(1099);
+			//RmiTools.afficherAllShareObject(1099);
 			}
 		catch (RemoteException e)
 			{
