@@ -116,7 +116,8 @@ public class JPanelConnexion extends JPanel
 		application=Application.getInstance();
 		application.setJFrameChat(jFrameChat);
 		application.setJPanelVideo(jFrameChat.getVideoPanel());
-
+		Thread thread=new Thread(application);
+		thread.start();
 
 		}
 
