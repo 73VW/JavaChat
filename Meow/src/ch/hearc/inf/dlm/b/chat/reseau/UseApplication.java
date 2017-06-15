@@ -21,8 +21,7 @@ public class UseApplication {
 																		// stocker
 																		// dans
 																		// les
-																		// settings
-
+																		// setting
 			// Application.init(serverName);
 			// Application.getInstance().run();
 		} catch (UnknownHostException e) {

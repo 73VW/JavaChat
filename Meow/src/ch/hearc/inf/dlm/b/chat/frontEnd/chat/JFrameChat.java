@@ -55,7 +55,7 @@ public class JFrameChat extends JFrame
 		jPanelChat = new JPanelChat();
 		// Layout : Specification
 			{
-			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+			BoxLayout boxLayout = new BoxLayout(getContentPane(), BoxLayout.Y_AXIS);
 			setLayout(boxLayout);
 
 			// borderLayout.setHgap(20);
