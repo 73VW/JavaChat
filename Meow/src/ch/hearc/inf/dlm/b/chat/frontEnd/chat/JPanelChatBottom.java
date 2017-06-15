@@ -6,10 +6,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import ch.hearc.inf.dlm.b.chat.reseau.Application;
+import ch.hearc.inf.dlm.b.chat.reseau.message.StringCrypter;
+import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
 public class JPanelChatBottom extends JPanel
 	{
@@ -20,6 +25,7 @@ public class JPanelChatBottom extends JPanel
 
 	public JPanelChatBottom(JPanelChat jPanelChat)
 		{
+		application=Application.getInstance();
 		this.jPanelChat = jPanelChat;
 		geometry();
 		control();
@@ -107,6 +113,15 @@ public class JPanelChatBottom extends JPanel
 		{
 		jPanelChat.addLine(jTextFieldMessage.getText(), true);
 		jTextFieldMessage.setText("");
+
+		try
+			{
+			application.setText(new StringCrypter(jTextFieldMessage.getText()));
+			}
+		catch (RemoteException e)
+			{
+			e.printStackTrace();
+			}
 		}
 
 	private void appearance()
@@ -124,5 +139,7 @@ public class JPanelChatBottom extends JPanel
 	private JTextField jTextFieldMessage;
 	private JButton jButtonSend;
 	private JButton jbuttonVideo;
+	private Application_I application;
+
 
 	}

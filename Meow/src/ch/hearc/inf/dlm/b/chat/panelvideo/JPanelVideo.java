@@ -24,7 +24,7 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 	public JPanelVideo()
 		{
-		application=Application.getInstance().getRemote();
+		application=Application.getInstance();
 		blackAndWhite = false;
 		mirror = true;
 
@@ -127,10 +127,11 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 	public void setLocalImage(BufferedImage image)
 		{
 		this.imageLocal = image;
+		ImageSerializable serializableImage = new ImageSerializable(image);
 
 		try
 			{
-			application.setImage(new ImageSerializable(image));
+			application.setImage(serializableImage);
 			}
 		catch (RemoteException e)
 			{

@@ -117,6 +117,7 @@ public class JPanelConnexion extends JPanel
 		application.setJFrameChat(jFrameChat);
 		application.setJPanelVideo(jFrameChat.getVideoPanel());
 
+
 		}
 
 	/*------------------------------------------------------------------*\

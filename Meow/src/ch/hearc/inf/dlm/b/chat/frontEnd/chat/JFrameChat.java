@@ -65,7 +65,7 @@ public class JFrameChat extends JFrame
 		// JComponent : add
 		add(jPanelVideo);
 		add(jPanelChat);
-		jPanelVideo.setVisible(false);
+		jPanelVideo.setVisible(true);
 		}
 
 	private void control()
