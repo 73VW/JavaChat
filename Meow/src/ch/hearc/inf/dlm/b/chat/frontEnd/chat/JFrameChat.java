@@ -73,8 +73,14 @@ public class JFrameChat extends JFrame
 		ImageIcon imgIcon = new ImageIcon("img/logo.png");
 		Image img = imgIcon.getImage();
 		setIconImage(img);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setUndecorated(false);
 		setVisible(true); // last!
 		}
+
+	public void switchDecoration(){
+		setUndecorated(!isUndecorated());
+	}
 
 	public JPanelVideo getVideoPanel()
 		{

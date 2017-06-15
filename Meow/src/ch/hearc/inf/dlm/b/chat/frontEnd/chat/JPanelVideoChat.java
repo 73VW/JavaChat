@@ -4,7 +4,6 @@ package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
@@ -17,7 +16,7 @@ public class JPanelVideoChat extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelVideoChat(JFrame jFrame)
+	public JPanelVideoChat(JFrameChat jFrame)
 		{
 		this.mother = jFrame;
 		geometry();
@@ -52,7 +51,7 @@ public class JPanelVideoChat extends JPanel
 		jPanelVideo = new JPanelVideo();
 		jPanelChat = new JPanelChat();
 		jPanelChatRight = new JPanelChatRight(jPanelVideo, mother);
-		JPanelDecorator jPanelDecorator = new JPanelDecorator(jPanelChatRight, 20);
+		JPanelDecorator jPanelDecorator = new JPanelDecorator(jPanelChatRight, 10);
 		// Layout : Specification
 			{
 			GridLayout gridLayout = new GridLayout(2, 1);
@@ -96,6 +95,6 @@ public class JPanelVideoChat extends JPanel
 	private JPanelVideo jPanelVideo;
 	private JPanelChatRight jPanelChatRight;
 
-	private JFrame mother;
+	private JFrameChat mother;
 
 	}

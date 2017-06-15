@@ -1,16 +1,17 @@
 
 package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
-import java.awt.Frame;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
@@ -22,11 +23,13 @@ public class JPanelChatRight extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelChatRight(JPanelVideo jPanelVideo, JFrame jFrame)
+	public JPanelChatRight(JPanelVideo jPanelVideo, JFrameChat jFrame)
 		{
 		this.mother = jFrame;
 		this.jPanelVideo = jPanelVideo;
 		stateColor = stateMirror = false;
+		oldLoc = new Point(0,0);
+		oldSize = new Dimension(0, 0);
 		geometry();
 		control();
 		appearance();
@@ -83,7 +86,7 @@ public class JPanelChatRight extends JPanel
 
 		// Layout : Specification
 			{
-			GridLayout gridLayout = new GridLayout(3, 1, 10, 10);
+			GridLayout gridLayout = new GridLayout(3, 1);
 			setLayout(gridLayout);
 
 			// flowlayout.setHgap(20);
@@ -138,21 +141,45 @@ public class JPanelChatRight extends JPanel
 
 	private void fullScreen()
 		{
+
 		if (stateFullScreen)
 			{
-			mother.setExtendedState(mother.getExtendedState() | Frame.MAXIMIZED_BOTH);
-			mother.setUndecorated(true);
-			mother.setSize(mother.getToolkit().getScreenSize());
+			ImageIcon imageIcon = new ImageIcon("img/minimize.png");
+			imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+			jButtonFullScreen.setIcon(imageIcon);
+
+			ImageIcon rollOverIcon = new ImageIcon("img/minimize_hover.png");
+			rollOverIcon = new ImageIcon(rollOverIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+			jButtonFullScreen.setRolloverIcon(rollOverIcon);
+
+			oldSize = mother.getSize();
+			oldLoc = mother.getLocation();
 			mother.setLocationRelativeTo(null);
-			mother.validate();
-			mother.setVisible(true);
+			mother.dispose();
+			mother.switchDecoration();
+			mother.pack();
+			GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(mother);
 			}
 		else
 			{
-			mother.setExtendedState(Frame.NORMAL);
-			mother.setUndecorated(false);
-			mother.setVisible(true);
+			ImageIcon imageIcon = new ImageIcon("img/fullscreen.png");
+			imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+			jButtonFullScreen.setIcon(imageIcon);
+
+			ImageIcon rollOverIcon = new ImageIcon("img/fullscreen_hover.png");
+			rollOverIcon = new ImageIcon(rollOverIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+			jButtonFullScreen.setRolloverIcon(rollOverIcon);
+
+			GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(null);
+			mother.dispose();
+			mother.switchDecoration();
+			System.out.println(oldSize.toString());
+			mother.pack();
+			mother.setSize(oldSize);
+			mother.setLocation(oldLoc);
+			System.out.println(mother.getSize());
 			}
+		mother.setVisible(true);
 		}
 
 	private void appearance()
@@ -197,7 +224,7 @@ public class JPanelChatRight extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JFrame mother;
+	private JFrameChat mother;
 
 	private JPanelVideo jPanelVideo;
 
@@ -208,5 +235,8 @@ public class JPanelChatRight extends JPanel
 	private boolean stateColor;
 	private boolean stateMirror;
 	private boolean stateFullScreen;
+
+	private Point oldLoc;
+	private Dimension oldSize;
 
 	}
