@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.hearc.inf.dlm.b.chat.reseau.Application;
-import ch.hearc.inf.dlm.b.chat.reseau.message.StringCrypter;
 import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
 public class JPanelChatBottom extends JPanel
@@ -116,7 +115,7 @@ public class JPanelChatBottom extends JPanel
 
 		try
 			{
-			application.setText(new StringCrypter(jTextFieldMessage.getText()));
+			Application.getInstance().getRemote().setText(jTextFieldMessage.getText());
 			}
 		catch (RemoteException e)
 			{
