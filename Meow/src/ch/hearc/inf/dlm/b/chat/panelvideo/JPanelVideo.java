@@ -127,7 +127,6 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 	public void toggleBlackAndWhite()
 		{
 		blackAndWhite=!blackAndWhite;
-
 		}
 
 	/*------------------------------------------------------------------*\
