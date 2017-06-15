@@ -17,6 +17,7 @@ import org.junit.Assert;
 import ch.hearc.inf.dlm.b.chat.frontEnd.chat.JFrameChat;
 import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
 import ch.hearc.inf.dlm.b.chat.reseau.image.ImageSerializable;
+import ch.hearc.inf.dlm.b.chat.reseau.message.StringCrypter;
 import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
 import com.bilat.tools.reseau.rmi.NetworkTools;
@@ -48,10 +49,10 @@ public class Application implements Application_I ,Runnable
 		}
 
 	@Override
-	public void setText(String stringCrypter) throws RemoteException
+	public void setText(StringCrypter stringCrypter) throws RemoteException
 		{
 		System.out.println("setText");
-		addLine(stringCrypter);
+		addLine(stringCrypter.toString());
 		}
 
 	@Override

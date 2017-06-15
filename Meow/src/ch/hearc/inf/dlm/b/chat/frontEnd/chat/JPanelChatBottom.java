@@ -111,8 +111,6 @@ public class JPanelChatBottom extends JPanel
 	private void sendMessage()
 		{
 		jPanelChat.addLine(jTextFieldMessage.getText(), true);
-		jTextFieldMessage.setText("");
-
 		try
 			{
 			Application.getInstance().getRemote().setText(jTextFieldMessage.getText());
@@ -121,6 +119,8 @@ public class JPanelChatBottom extends JPanel
 			{
 			e.printStackTrace();
 			}
+
+		jTextFieldMessage.setText("");
 		}
 
 	private void appearance()
