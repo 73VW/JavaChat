@@ -39,9 +39,9 @@ public class Application implements Application_I ,Runnable
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public void savePrivateKey(PrivateKey privateKey) throws RemoteException
+	public void savePublicKey(PublicKey publicKey) throws RemoteException
 		{
-		this.remotePrivateKey = privateKey;
+		this.remotePubliceKey = publicKey;
 		}
 
 	@Override
@@ -97,14 +97,14 @@ public class Application implements Application_I ,Runnable
 	|*				Get				*|
 	\*------------------------------*/
 
-	public PrivateKey getRemotePrivatekey()
+	public PublicKey getRemotePublickey()
 		{
-		return this.remotePrivateKey;
+		return this.remotePubliceKey;
 		}
 
-	public PublicKey getPublicKey()
+	public PrivateKey getPrivateKey()
 		{
-		return this.publicKey;
+		return this.privateKey;
 		}
 
 	/*------------------------------*\
@@ -221,7 +221,7 @@ public class Application implements Application_I ,Runnable
 	private PrivateKey privateKey;
 	private PublicKey publicKey;
 
-	private PrivateKey remotePrivateKey;
+	private PublicKey remotePubliceKey;
 
 	/*------------------------------*\
 	|*			  Static			*|

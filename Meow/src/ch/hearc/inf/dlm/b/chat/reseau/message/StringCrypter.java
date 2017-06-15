@@ -47,7 +47,7 @@ public class StringCrypter implements Serializable
 		try
 			{
 			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(Cipher.ENCRYPT_MODE, Application.getInstance().getPublicKey());
+			cipher.init(Cipher.ENCRYPT_MODE, Application.getInstance().getRemotePublickey());
 
 			return new SealedObject(secret, cipher);
 
@@ -65,7 +65,7 @@ public class StringCrypter implements Serializable
 		try
 			{
 			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(Cipher.DECRYPT_MODE, Application.getInstance().getRemotePrivatekey());
+			cipher.init(Cipher.DECRYPT_MODE, Application.getInstance().getPrivateKey());
 
 			return (String)messageCrypted.getObject(cipher);
 			}
