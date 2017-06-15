@@ -111,20 +111,20 @@ public class JPanelChatBottom extends JPanel
 	private void sendMessage()
 		{
 		jPanelChat.addLine(jTextFieldMessage.getText(), true);
-		jTextFieldMessage.setText("");
+
 
 		try
 			{
-<<<<<<< HEAD
-			Application.getInstance().getRemote().setText(new StringCrypter(jTextFieldMessage.getText()));
-=======
+
 			Application.getInstance().getRemote().setText(jTextFieldMessage.getText());
->>>>>>> e83723c4b2f264d8447c772978936b6dbb23ef63
+
 			}
 		catch (RemoteException e)
 			{
 			e.printStackTrace();
 			}
+
+		jTextFieldMessage.setText("");
 		}
 
 	private void appearance()

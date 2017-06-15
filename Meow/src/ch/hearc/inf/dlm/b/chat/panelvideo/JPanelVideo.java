@@ -7,7 +7,6 @@ import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
-import java.rmi.RemoteException;
 
 import javax.swing.JPanel;
 
@@ -24,7 +23,6 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 	public JPanelVideo()
 		{
-		application=Application.getInstance();
 		blackAndWhite = false;
 		mirror = true;
 
@@ -131,13 +129,17 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 		try
 			{
-			application.setImage(serializableImage);
+			Application.getInstance().getRemote().setImage(serializableImage);
+			Thread.sleep(1);
 			}
-		catch (RemoteException e)
+		catch (Exception e)
 			{
 			e.printStackTrace();
 			}
 		repaint();
+
+
+
 		}
 
 	@Override
