@@ -116,6 +116,11 @@ public class Application implements Application_I ,Runnable
 		return remoteInstance;
 		}
 
+	public String getPseudo()
+		{
+		return PSEUDO;
+		}
+
 	/*------------------------------*\
 	|*			  Static			*|
 	\*------------------------------*/

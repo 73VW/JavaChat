@@ -6,15 +6,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.SocketException;
 import java.util.regex.Pattern;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -82,28 +76,18 @@ public class JPanelConnexion extends JPanel
 		jTextFieldDistIp = new JTextField();
 		jTextFieldPseudo = new JTextField();
 		jLabelIp = new JLabel(localhostIp);
-		BufferedImage buttonIcon;
-		try
-			{
-			buttonIcon = ImageIO.read(new File("img/connect.png"));
-			ImageIcon imageIcon = new ImageIcon(buttonIcon);
-			imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-			jButtonConnexion = new JButton(imageIcon);
 
-			ImageIcon rollOverIcon = new ImageIcon("img/connect_hover.png"); // Icon for roll over (hovering effect)
-			rollOverIcon = new ImageIcon(rollOverIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-			jButtonConnexion.setRolloverIcon(rollOverIcon); // Set the icon attaching with the roll-over event
+		ImageIcon imageIcon = new ImageIcon("img/connect.png");
+		imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		jButtonConnexion = new JButton(imageIcon);
 
-			jButtonConnexion.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
-			jButtonConnexion.setContentAreaFilled(false);
-			jButtonConnexion.setBorder(BorderFactory.createEmptyBorder());
-			}
-		catch (IOException e)
-			{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			jButtonConnexion = new JButton("Connexion");
-			}
+		ImageIcon rollOverIcon = new ImageIcon("img/connect_hover.png"); // Icon for roll over (hovering effect)
+		rollOverIcon = new ImageIcon(rollOverIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		jButtonConnexion.setRolloverIcon(rollOverIcon); // Set the icon attaching with the roll-over event
+
+		jButtonConnexion.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
+		jButtonConnexion.setContentAreaFilled(false);
+		jButtonConnexion.setBorder(BorderFactory.createEmptyBorder());
 		// Layout : Specification
 			{
 			BorderLayout borderLayout = new BorderLayout();
@@ -187,20 +171,6 @@ public class JPanelConnexion extends JPanel
 				parent.setVisible(false);
 				parent.dispose();
 				}
-			});
-
-		addKeyListener(new KeyAdapter()
-			{
-
-			@Override
-			public void keyPressed(KeyEvent e)
-				{
-				if (e.getKeyCode() == KeyEvent.VK_ENTER)
-					{
-					jButtonConnexion.doClick();
-					}
-				}
-
 			});
 
 		}

@@ -2,10 +2,14 @@
 package ch.hearc.inf.dlm.b.chat.frontEnd.connection;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import ch.hearc.inf.dlm.b.chat.tools.JPanelDecorator;
+
+//all the icons come from here : http://www.flaticon.com
 
 public class JFrameConnexion extends JFrame
 	{
@@ -66,6 +70,9 @@ public class JFrameConnexion extends JFrame
 		setLocationRelativeTo(null); // frame centrer
 		setResizable(false);
 		setTitle("Java Chat - Connexion!");
+		ImageIcon imgIcon = new ImageIcon("img/logo.png");
+		Image img = imgIcon.getImage();
+		setIconImage(img);
 		setVisible(true); // last!
 		}
 

@@ -1,20 +1,25 @@
 
 package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.hearc.inf.dlm.b.chat.reseau.Application;
 import ch.hearc.inf.dlm.b.chat.reseau.message.StringCrypter;
-import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
 public class JPanelChatBottom extends JPanel
 	{
@@ -25,7 +30,7 @@ public class JPanelChatBottom extends JPanel
 
 	public JPanelChatBottom(JPanelChat jPanelChat)
 		{
-		application = Application.getInstance().getRemote();
+		updatedByUser = false;
 		this.jPanelChat = jPanelChat;
 		geometry();
 		control();
@@ -52,26 +57,32 @@ public class JPanelChatBottom extends JPanel
 		{
 		// JComponent : Instanciation
 		jTextFieldMessage = new JTextField();
-		jButtonSend = new JButton("Envoyer");
-		jbuttonVideo = new JButton("Video");
+		jTextFieldMessage.setText("Enter your message here");
+		jTextFieldMessage.setForeground(new Color(150, 150, 150));
+
+		ImageIcon imageIcon = new ImageIcon("img/right-arrow.png");
+		imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		jButtonSend = new JButton(imageIcon);
+
+		ImageIcon rollOverIcon = new ImageIcon("img/right-arrow_hover.png");
+		rollOverIcon = new ImageIcon(rollOverIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		jButtonSend.setRolloverIcon(rollOverIcon);
+
+		jButtonSend.setContentAreaFilled(false);
+		jButtonSend.setBorder(BorderFactory.createEmptyBorder());
 
 		// Layout : Specification
 			{
-			GridLayout gridLayout = new GridLayout(0, 2, 10, 0);
-			setLayout(gridLayout);
+			BorderLayout borderLayout = new BorderLayout();
+			setLayout(borderLayout);
 
 			// flowlayout.setHgap(20);
 			// flowlayout.setVgap(20);
 			}
 
-		JPanel jPanelButtons = new JPanel();
-		jPanelButtons.setLayout(new GridLayout(0, 2, 10, 0));
-		jPanelButtons.add(jButtonSend);
-		jPanelButtons.add(jbuttonVideo);
-
 		// JComponent : add
-		add(jTextFieldMessage);
-		add(jPanelButtons);
+		add(jTextFieldMessage, BorderLayout.CENTER);
+		add(jButtonSend, BorderLayout.EAST);
 		}
 
 	private void control()
@@ -82,9 +93,11 @@ public class JPanelChatBottom extends JPanel
 			@Override
 			public void keyPressed(KeyEvent e)
 				{
+				updatedByUser = true;
 				if (e.getKeyCode() == 10)
 					{
 					sendMessage();
+					updatedByUser = false;
 					}
 				}
 			});
@@ -97,25 +110,42 @@ public class JPanelChatBottom extends JPanel
 				sendMessage();
 				}
 			});
-		jbuttonVideo.addMouseListener(new MouseAdapter()
+
+		jTextFieldMessage.addFocusListener(new FocusListener()
 			{
 
 			@Override
-			public void mousePressed(MouseEvent e)
+			public void focusGained(FocusEvent e)
 				{
-				// TODO Auto-generated method stub
-				System.out.println("Open Video");
+				if (!updatedByUser)
+					{
+					jTextFieldMessage.setText("");
+					jTextFieldMessage.setForeground(new Color(255, 255, 255));
+					}
+				}
+
+			@Override
+			public void focusLost(FocusEvent e)
+				{
+
+				if (jTextFieldMessage.getText().length() == 0)
+					{
+					jTextFieldMessage.setText("Enter your message here");
+					jTextFieldMessage.setForeground(new Color(150, 150, 150));
+					updatedByUser = false;
+					}
 				}
 			});
 		}
 
 	private void sendMessage()
 		{
-		jPanelChat.addLine(jTextFieldMessage.getText(), true);
+		String msg = Application.getInstance().getPseudo() + " : " + jTextFieldMessage.getText();
+		jPanelChat.addLine(msg, true);
 
 		try
 			{
-			Application.getInstance().getRemote().setText(new StringCrypter(jTextFieldMessage.getText()));
+			Application.getInstance().getRemote().setText(new StringCrypter(msg));
 			}
 		catch (RemoteException e)
 			{
@@ -139,7 +169,6 @@ public class JPanelChatBottom extends JPanel
 	// Tools
 	private JTextField jTextFieldMessage;
 	private JButton jButtonSend;
-	private JButton jbuttonVideo;
-	private Application_I application;
 
+	private boolean updatedByUser;
 	}

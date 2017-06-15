@@ -2,22 +2,24 @@
 package ch.hearc.inf.dlm.b.chat.frontEnd.chat;
 
 import java.awt.BorderLayout;
-import java.awt.Image;
+import java.awt.GridLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
 import ch.hearc.inf.dlm.b.chat.tools.JPanelDecorator;
 
-public class JFrameChat extends JFrame
+public class JPanelVideoChat extends JPanel
 	{
+
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JFrameChat()
+	public JPanelVideoChat(JFrame jFrame)
 		{
+		this.mother = jFrame;
 		geometry();
 		control();
 		appearance();
@@ -29,7 +31,7 @@ public class JFrameChat extends JFrame
 
 	public void addLine(String msg, Boolean provenance)
 		{
-		jPanelVideoChat.addLine(msg, provenance);
+		jPanelChat.addLine(msg, provenance);
 		}
 
 	/*------------------------------*\
@@ -47,38 +49,42 @@ public class JFrameChat extends JFrame
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		jPanelVideoChat = new JPanelVideoChat(this);
-		JPanelDecorator jPanelDecorator = new JPanelDecorator(jPanelVideoChat, 20);
+		jPanelVideo = new JPanelVideo();
+		jPanelChat = new JPanelChat();
+		jPanelChatRight = new JPanelChatRight(jPanelVideo, mother);
+		JPanelDecorator jPanelDecorator = new JPanelDecorator(jPanelChatRight, 20);
 		// Layout : Specification
 			{
-			BorderLayout borderLayout = new BorderLayout();
-			setLayout(borderLayout);
+			GridLayout gridLayout = new GridLayout(2, 1);
+			setLayout(gridLayout);
 
 			// borderLayout.setHgap(20);
 			// borderLayout.setVgap(20);
 			}
-		add(jPanelDecorator, BorderLayout.CENTER);
+		JPanel jPanel = new JPanel();
+		jPanel.setLayout(new BorderLayout());
+		jPanel.add(jPanelVideo, BorderLayout.CENTER);
+		jPanel.add(jPanelDecorator, BorderLayout.EAST);
+
+		// JComponent : add
+		add(jPanel);
+		add(jPanelChat);
+		jPanelVideo.setVisible(true);
 		}
 
 	private void control()
 		{
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// rien
 		}
 
 	private void appearance()
 		{
-		setSize(600, 400);
-		setTitle("Java Chat");
-		setLocationRelativeTo(null); // frame centrer
-		ImageIcon imgIcon = new ImageIcon("img/logo.png");
-		Image img = imgIcon.getImage();
-		setIconImage(img);
-		setVisible(true); // last!
+		// rien
 		}
 
 	public JPanelVideo getVideoPanel()
 		{
-		return jPanelVideoChat.getVideoPanel();
+		return jPanelVideo;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -86,6 +92,10 @@ public class JFrameChat extends JFrame
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelVideoChat jPanelVideoChat;
+	private JPanelChat jPanelChat;
+	private JPanelVideo jPanelVideo;
+	private JPanelChatRight jPanelChatRight;
+
+	private JFrame mother;
 
 	}

@@ -104,11 +104,11 @@ public class JPanelChat extends JPanel
 		{
 		left = new SimpleAttributeSet();
 		StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
-		StyleConstants.setForeground(left, Color.RED);
+		StyleConstants.setForeground(left, Color.WHITE);
 
 		right = new SimpleAttributeSet();
 		StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
-		StyleConstants.setForeground(right, Color.BLUE);
+		StyleConstants.setForeground(right, Color.WHITE);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -119,6 +119,7 @@ public class JPanelChat extends JPanel
 	private JTextPane jTextPaneDisplay;
 	private JScrollPane jScrollPane;
 	private JPanelChatBottom jPanelChatBottom;
+
 	private JScrollBar jScrollBar;
 	private StyledDocument styledDocument;
 	private SimpleAttributeSet left;
