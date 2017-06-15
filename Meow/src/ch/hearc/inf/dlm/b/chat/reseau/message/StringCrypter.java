@@ -66,7 +66,6 @@ public class StringCrypter implements Serializable
 			{
 			Cipher cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.DECRYPT_MODE, Application.getInstance().getPrivateKey());
-
 			return (String)messageCrypted.getObject(cipher);
 			}
 		catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | ClassNotFoundException | IOException e)
