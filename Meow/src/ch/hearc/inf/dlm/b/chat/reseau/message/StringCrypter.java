@@ -38,12 +38,18 @@ public class StringCrypter implements Serializable
 		return secret;
 		}
 
+	public String getMessage()
+		{
+		return secret;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
 	private SealedObject crypter()
 		{
+		System.out.println("Test crypter");
 		try
 			{
 			Cipher cipher = Cipher.getInstance("RSA");
@@ -61,7 +67,7 @@ public class StringCrypter implements Serializable
 
 	private String decrypter(SealedObject messageCrypted)
 		{
-
+		System.out.println("Test decrypter");
 		try
 			{
 			Cipher cipher = Cipher.getInstance("RSA");

@@ -17,6 +17,7 @@ import org.junit.Assert;
 import ch.hearc.inf.dlm.b.chat.frontEnd.chat.JFrameChat;
 import ch.hearc.inf.dlm.b.chat.panelvideo.JPanelVideo;
 import ch.hearc.inf.dlm.b.chat.reseau.image.ImageSerializable;
+import ch.hearc.inf.dlm.b.chat.reseau.message.StringCrypter;
 import ch.hearc.inf.dlm.b.chat.reseau.spec.Application_I;
 
 import com.bilat.tools.reseau.rmi.NetworkTools;
@@ -48,12 +49,9 @@ public class Application implements Application_I ,Runnable
 		}
 
 	@Override
-	public void setText(String stringCrypter) throws RemoteException
+	public void setText(StringCrypter messageCrypter) throws RemoteException
 		{
-
-
-		addLine(stringCrypter);
-
+		addLine(messageCrypter);
 		}
 
 	@Override
@@ -89,9 +87,9 @@ public class Application implements Application_I ,Runnable
 		this.jFrameChat = jFrameChat;
 		}
 
-	public void addLine(String message) throws RemoteException
+	public void addLine(StringCrypter messageCrypter) throws RemoteException
 		{
-		this.jFrameChat.addLine(message, false);
+		this.jFrameChat.addLine(messageCrypter.getMessage(), false);
 		}
 
 	public void addImage(ImageSerializable imageSerializable) throws RemoteException
@@ -187,6 +185,14 @@ public class Application implements Application_I ,Runnable
 		Application_I application = connect();
 		IS_CONNECTED_TO_REMOTE_INSTANCE = true;
 		this.remoteInstance = application;
+		try
+			{
+			remoteInstance.savePublicKey(this.publicKey);
+			}
+		catch (RemoteException e)
+			{
+			e.printStackTrace();
+			}
 		}
 
 	private Application_I connect() throws MalformedURLException
