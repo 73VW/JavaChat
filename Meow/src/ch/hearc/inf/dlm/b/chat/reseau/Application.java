@@ -50,8 +50,10 @@ public class Application implements Application_I ,Runnable
 	@Override
 	public void setText(String stringCrypter) throws RemoteException
 		{
-		System.out.println("setText");
-		addLine(stringCrypter.toString());
+
+
+		addLine(stringCrypter);
+
 		}
 
 	@Override

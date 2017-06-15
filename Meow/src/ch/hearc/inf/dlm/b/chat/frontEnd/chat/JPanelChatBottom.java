@@ -111,6 +111,7 @@ public class JPanelChatBottom extends JPanel
 	private void sendMessage()
 		{
 		jPanelChat.addLine(jTextFieldMessage.getText(), true);
+
 		try
 			{
 			Application.getInstance().getRemote().setText(jTextFieldMessage.getText());
