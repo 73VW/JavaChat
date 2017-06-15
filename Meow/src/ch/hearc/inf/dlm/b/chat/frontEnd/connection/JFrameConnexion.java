@@ -40,7 +40,7 @@ public class JFrameConnexion extends JFrame
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		jPanelConnexion = new JPanelConnexion();
+		jPanelConnexion = new JPanelConnexion(this);
 		jPanelDecorator = new JPanelDecorator(jPanelConnexion, 20);
 		// Layout : Specification
 			{

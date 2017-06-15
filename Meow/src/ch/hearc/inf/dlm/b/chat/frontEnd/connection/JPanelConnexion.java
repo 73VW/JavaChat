@@ -1,13 +1,26 @@
 
 package ch.hearc.inf.dlm.b.chat.frontEnd.connection;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.SocketException;
+import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -23,8 +36,9 @@ public class JPanelConnexion extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelConnexion()
+	public JPanelConnexion(JFrame frame)
 		{
+		parent = frame;
 		geometry();
 		control();
 		appearance();
@@ -59,7 +73,7 @@ public class JPanelConnexion extends JPanel
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
-		localhostIp=localhostIp.substring(1);
+		localhostIp = localhostIp.substring(1);
 
 		// JComponent : Instanciation
 		jLabelDistIp = new JLabel("Adresse IP distante");
@@ -68,24 +82,47 @@ public class JPanelConnexion extends JPanel
 		jTextFieldDistIp = new JTextField();
 		jTextFieldPseudo = new JTextField();
 		jLabelIp = new JLabel(localhostIp);
-		jButtonConnexion = new JButton("Connexion");
+		BufferedImage buttonIcon;
+		try
+			{
+			buttonIcon = ImageIO.read(new File("img/connect.png"));
+			ImageIcon imageIcon = new ImageIcon(buttonIcon);
+			imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+			jButtonConnexion = new JButton(imageIcon);
+
+			ImageIcon rollOverIcon = new ImageIcon("img/connect_hover.png"); // Icon for roll over (hovering effect)
+			rollOverIcon = new ImageIcon(rollOverIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+			jButtonConnexion.setRolloverIcon(rollOverIcon); // Set the icon attaching with the roll-over event
+
+			jButtonConnexion.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
+			jButtonConnexion.setContentAreaFilled(false);
+			jButtonConnexion.setBorder(BorderFactory.createEmptyBorder());
+			}
+		catch (IOException e)
+			{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			jButtonConnexion = new JButton("Connexion");
+			}
 		// Layout : Specification
 			{
-			GridLayout gridLayout = new GridLayout(4, 2, 30, 10);
-			setLayout(gridLayout);
-
+			BorderLayout borderLayout = new BorderLayout();
+			setLayout(borderLayout);
 			// flowlayout.setHgap(20);
 			// flowlayout.setVgap(20);
 			}
+		JPanel jPanel = new JPanel();
+		jPanel.setLayout(new GridLayout(3, 2, 30, 10));
 
 		// JComponent : add
-		add(jLabelDistIp);
-		add(jTextFieldDistIp);
-		add(jLabelPseudo);
-		add(jTextFieldPseudo);
-		add(jLabelCurrIp);
-		add(jLabelIp);
-		add(jButtonConnexion);
+		jPanel.add(jLabelDistIp);
+		jPanel.add(jTextFieldDistIp);
+		jPanel.add(jLabelPseudo);
+		jPanel.add(jTextFieldPseudo);
+		jPanel.add(jLabelCurrIp);
+		jPanel.add(jLabelIp);
+		add(jPanel, BorderLayout.CENTER);
+		add(jButtonConnexion, BorderLayout.SOUTH);
 		}
 
 	private void control()
@@ -96,10 +133,74 @@ public class JPanelConnexion extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 				{
-				System.out.println(jTextFieldDistIp.getText());
-				startApplication();
+				// TODO Conect
+				System.out.println("Lancement de l'application");
 
+				if (checkInput())
+					{
+					new Thread(new Runnable()
+						{
+
+						@Override
+						public void run()
+							{
+							connection();
+							}
+
+						}).start();
+					}
 				}
+
+			private boolean checkInput()
+				{
+				if (IPV4_PATTERN.matcher(jTextFieldDistIp.getText()).matches())
+					{
+					if (!jTextFieldPseudo.getText().isEmpty())
+						{
+						return true;
+						}
+					else
+						{
+						JOptionPane.showMessageDialog(null, "Please enter a pseudo.", "Error", JOptionPane.ERROR_MESSAGE);
+						return false;
+						}
+					}
+				else
+					{
+					JOptionPane.showMessageDialog(null, "IP adresse is not valid.", "Error", JOptionPane.ERROR_MESSAGE);
+					return false;
+					}
+				}
+
+			private void connection()
+				{
+				jButtonConnexion.setEnabled(false);
+
+				Application.init(jTextFieldDistIp.getText(), jTextFieldPseudo.getText());
+				JFrameChat jFrameChat = new JFrameChat();
+				application = Application.getInstance();
+				application.setJFrameChat(jFrameChat);
+				application.setJPanelVideo(jFrameChat.getVideoPanel());
+				Thread thread = new Thread(application);
+				thread.start();
+
+				parent.setVisible(false);
+				parent.dispose();
+				}
+			});
+
+		addKeyListener(new KeyAdapter()
+			{
+
+			@Override
+			public void keyPressed(KeyEvent e)
+				{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					{
+					jButtonConnexion.doClick();
+					}
+				}
+
 			});
 
 		}
@@ -109,23 +210,12 @@ public class JPanelConnexion extends JPanel
 		// rien
 		}
 
-	private void startApplication()
-		{
-		Application.init(jTextFieldDistIp.getText(), jTextFieldPseudo.getText());
-		JFrameChat jFrameChat=new JFrameChat();
-		application=Application.getInstance();
-		application.setJFrameChat(jFrameChat);
-		application.setJPanelVideo(jFrameChat.getVideoPanel());
-		Thread thread=new Thread(application);
-		thread.start();
-
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
 	// Tools
+	private JFrame parent;
 	private JLabel jLabelDistIp;
 	private JLabel jLabelPseudo;
 	private JLabel jLabelCurrIp;
@@ -135,4 +225,9 @@ public class JPanelConnexion extends JPanel
 	private JButton jButtonConnexion;
 	private Application application;
 
+	private static final Pattern IPV4_PATTERN = Pattern.compile("^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+
 	}
+/*
+icon by http://www.freepik.com
+*/
