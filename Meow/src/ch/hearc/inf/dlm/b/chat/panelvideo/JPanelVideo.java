@@ -91,18 +91,20 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 
 	private void dessiner(Graphics2D g2d)
 		{
+		BufferedImage imageLocal2=imageLocal;
+		BufferedImage imageExterne2=imageExterne;
 		if (blackAndWhite)
 			{
-			imageExterne = setBlackAndWhite(imageExterne);
-			imageLocal = setBlackAndWhite(imageLocal);
+			imageExterne2 = setBlackAndWhite(imageExterne);
+			imageLocal2 = setBlackAndWhite(imageLocal);
 			}
 		if (mirror)
 			{
 			g2d.scale(-1, 1);
 			g2d.translate(-this.getWidth(), 0);
 
-			g2d.drawImage(imageLocal, 0, 0, this.getWidth() / 2, this.getHeight(), null);
-			g2d.drawImage(imageExterne, this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight(), this);
+			g2d.drawImage(imageLocal2, 0, 0, this.getWidth() / 2, this.getHeight(), null);
+			g2d.drawImage(imageExterne2, this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight(), this);
 			}
 		else
 			{
