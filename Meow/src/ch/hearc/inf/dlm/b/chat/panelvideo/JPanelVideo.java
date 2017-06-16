@@ -108,8 +108,8 @@ public class JPanelVideo extends JPanel implements JPanelVideo_I
 			}
 		else
 			{
-			g2d.drawImage(imageLocal, this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight(), null);
-			g2d.drawImage(imageExterne, 0, 0, this.getWidth() / 2, this.getHeight(), this);
+			g2d.drawImage(imageLocal2, this.getWidth() / 2, 0, this.getWidth() / 2, this.getHeight(), null);
+			g2d.drawImage(imageExterne2, 0, 0, this.getWidth() / 2, this.getHeight(), this);
 			}
 
 
