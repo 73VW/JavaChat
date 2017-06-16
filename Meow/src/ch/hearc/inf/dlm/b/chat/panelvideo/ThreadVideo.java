@@ -25,8 +25,8 @@ public class ThreadVideo implements Runnable
 		{
 		while(true)
 			{
-			BufferedImage image = myWebcam.getImage();
-			jPanelVideo.setLocalImage(image);
+				BufferedImage image = myWebcam.getImage();
+				jPanelVideo.setLocalImage(image);
 			}
 		}
 
